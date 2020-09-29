@@ -30,70 +30,76 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 # Steps to read a api:
 
-1 - [METHOD]
-    create a method in app/services/
+
+1 - [METHOD] 
+
+   create a method in app/services/
     ng g s services/crud
-    
-  constructor(private http: HttpClient) { }
-  public getFotos():Observable<any> {
-    return this.http.get(`https://jsonplaceholder.typicode.com/photos`)
-  } 
+
+      constructor(private http: HttpClient) { }
+      public getFotos():Observable<any> {
+        return this.http.get(`https://jsonplaceholder.typicode.com/photos`)
+      } 
 
   //method GET to url from image that be import
   // Here's the Magic!
 
 2 - [MODELS]
-    Copy code json from api, create a model and format to:
 
-export class Images {
-    public albumId: number;
-    public id: number;
-    public title: string;
-    public url: string;
-    public thumbnailUrl: string;
-}
+  Copy code json from api, create a model and format to:
+
+    export class Images {
+        public albumId: number;
+        public id: number;
+        public title: string;
+        public url: string;
+        public thumbnailUrl: string;
+    }
 
 
 3 - [COMPONENT]
-    ng g c componentes/crud
-    lets add on crud-component.ts:
+
+  ng g c componentes/crud
+  lets add on crud-component.ts:
 
 
-export class CrudComponent implements OnInit {
-images: Images;
-erro: any;
-  constructor(private crudService: CrudService) { 
-    this.getter();
-  }
+      export class CrudComponent implements OnInit {
+      images: Images;
+      erro: any;
+        constructor(private crudService: CrudService) { 
+          this.getter();
+        }
 
-  //lifecycle
-  ngOnInit(): void { 
-  }
-  getter() {
-    this.crudService.getFotos().subscribe((data: Images) => {
-      this.images = data;
-      console.log('Recebemos : ', data);
-      console.log('A variavel que prenchemos: ', this.images)
-    }, (error: any) => {
-      this.erro = error;
-      console.error("ERROR: ", error);
-    })
-  }
+        //lifecycle
+        ngOnInit(): void { 
+        }
+        getter() {
+          this.crudService.getFotos().subscribe((data: Images) => {
+            this.images = data;
+            console.log('Recebemos : ', data);
+            console.log('A variavel que prenchemos: ', this.images)
+          }, (error: any) => {
+            this.erro = error;
+            console.error("ERROR: ", error);
+          })
+        }
 
-}
+      }
 
 
 4 - [ROUTE]
-    into app.module.ts
+
+into app.module.ts
   
         import:
       HttpClientModule
   
-  providers: [HttpClient],
+      providers: [HttpClient],
 
 
 5 - [VIEW]
-    Into crud.component.html
+
+Into crud.component.html
 
     <div *ngFor="let i of images">
 	<h1>{{ i.title }}</h1>
@@ -103,8 +109,6 @@ erro: any;
 
 
 
-    Into app.component.html
+Into app.component.html
 
     <app-crud></app-crud>
-
-
